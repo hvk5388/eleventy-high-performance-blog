@@ -1,29 +1,49 @@
 ---
-title: This is my third post.
-description: This is a post on My Blog about win-win survival strategies.
-date: 2018-08-24
-scheduled: 2018-08-24
+title: Learn How APIs Work
+description: This is a post on My Blog about apis.
+date: 2022-02-26
 tags:
-  - second-tag
+  - beginner
+  - tutorial
+  - api
 layout: layouts/post.njk
 ---
-Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.
 
-``` js/2/4
-// this is a command
-function myCommand() {
-	let counter = 0;
+# Learn How APIs Work
 
-	counter++;
+API's are confusing. I barely understand them myself, but they are so useful. Outsourcing code can make your life so much easier. API's are very helpful in communicating with other services. Today I'm gong to go through what happens when you request from the [Wikipedia API](https://en.wikipedia.org/w/api.php) with data from a locational API.
 
-}
+# The request
 
-// Test with a line break above this line.
-console.log('Test');
+A fetch call is used to send a request to the locational API. This is so the API will help them retrieve data. In this example we fetch the location and IP address of of the user. The request code is shown below. You can see that the data is then saved as variables.
+
+```javascript
+return fetch(this.locationEndpoint + userIPData.ip)
+  .then((resp) => {
+    if (resp.ok) {
+      return resp.json();
+    }
+    return false;
+  })
+  .then((data) => {
+    console.log(data);
+    this.lat = data.latitude;
+    this.long = data.longitude;
+    this.city = data.city;
+    this.state = data.region_name;
+    console.log(`${this.lat} ${this.long}`);
+    return data;
+  });
 ```
 
-Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. User generated content in real-time will have multiple touchpoints for offshoring.
+# Wikipedia API
 
-## Section Header
+The Wikipedia API has many functions but we are using the query function. In this function the action of querying sends us the information that we are looking for. In our code we stored the response from the location in variables. We can use these variables as the search when we call the Wikipedia API.
 
-Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.
+```javascript
+<wikipedia-query search="${this.city}, ${this.state}"></wikipedia-query>
+<wikipedia-query search="${this.city}"></wikipedia-query>
+<wikipedia-query search="${this.state}"></wikipedia-query>
+```
+
+Once these are called in the page the response is displayed as a Wikipedia article if one exists. With the use of these two APIs and very little coding on our part we have a working program that displays an article specific to the user.
